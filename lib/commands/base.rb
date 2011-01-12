@@ -35,15 +35,13 @@ module Commands
         put "Pivotal Tracker API Token and Project ID are required"
         return 1
       end
-      
-      PivotalTracker::Client.token = options[:api_token]
-      
       return 0
     end
 
   protected
 
     def project
+      PivotalTracker::Client.token = options[:api_token]
       @project ||= PivotalTracker::Project.find(options[:project_id])
     end
 

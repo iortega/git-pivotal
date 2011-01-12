@@ -12,13 +12,15 @@ module Commands
       end
 
       put "Marking Story #{story_id} as finished..."
-      if story.update(:current_state => finished_state)
-        put "Merging #{current_branch} into #{integration_branch}"
-        sys "git checkout #{integration_branch}"
-        sys "git merge --no-ff #{current_branch}"
+      if story.update(:current_state => 'finished')
+        # put "Merging #{current_branch} into #{integration_branch}"
+        # sys "git checkout #{integration_branch}"
+        # sys "git merge --no-ff #{current_branch}"
+        # 
+        # put "Removing #{current_branch} branch"
+        # sys "git branch -d #{current_branch}"
 
-        put "Removing #{current_branch} branch"
-        sys "git branch -d #{current_branch}"
+        sys "git flow feature finish #{current_branch}"
 
         return 0
       else
@@ -39,7 +41,7 @@ module Commands
     end
 
     def current_branch
-      @current_branch ||= get('git symbolic-ref HEAD').chomp.split('/').last
+      @current_branch ||= get('git branch | grep "^\*"').gsub(/^\*\s+feature\//, '').chomp
     end
 
     def story_id

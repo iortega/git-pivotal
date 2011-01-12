@@ -34,19 +34,21 @@ module Commands
       put "URL:   #{story.url}"
 
       put "Updating #{type} status in Pivotal Tracker..."
-      if story.update(:owned_by => options[:full_name])
-
-        suffix = ""
-        unless options[:quiet] || options[:defaults]
-          put "Enter branch name (will be prepended by #{story.id}) [#{branch_suffix}]: ", false
+      puts options[:full_name]
+      
+      if story.update(:current_state => 'started', :owned_by => options[:full_name])
+    
+        suffix = branch_suffix
+        unless options[:quiet]
+          put "Enter branch name (will be prepended by #{story.id}) [#{suffix}]: ", false
           suffix = input.gets.chomp
         end
         suffix = branch_suffix if suffix == ""
 
         branch = "#{story.id}-#{suffix}"
         if get("git branch").match(branch).nil?
-          put "Switched to a new branch '#{branch}'"
-          sys "git checkout -b #{branch}"
+          put "Creating #{branch} branch..."
+          sys "git flow feature start #{branch}"
         end
 
         return 0
