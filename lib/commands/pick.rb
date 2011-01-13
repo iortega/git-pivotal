@@ -19,7 +19,7 @@ module Commands
       response = super
       return response if response > 0
 
-      msg = "Retrieving latest #{plural_type} from Pivotal Tracker"
+      msg = "Retrieving latest #{plural_type} from Pivotal Tracker" unless options[:story_id]
       if options[:only_mine]
         msg += " for #{options[:full_name]}"
       end
@@ -34,7 +34,6 @@ module Commands
       put "URL:   #{story.url}"
 
       put "Updating #{type} status in Pivotal Tracker..."
-      puts options[:full_name]
       
       if story.update(:current_state => 'started', :owned_by => options[:full_name])
     
@@ -63,10 +62,15 @@ module Commands
 
     def story
       return @story if @story
-
-      conditions = { :story_type => type, :current_state => "unstarted", :limit => 1, :offset => 0 }
-      conditions[:owned_by] = options[:full_name] if options[:only_mine]
-      @story = project.stories.all(conditions).first
+      if !!options[:story_id]
+        puts "Looking for story #{options[:story_id]}"
+        @story = project.stories.find(options[:story_id])
+        puts "Story has not state 'unstarted'. Current state '#{@story.current_state}'." if @story.current_state != "unstarted"
+      else
+        conditions = { :story_type => type, :current_state => "unstarted", :limit => 1, :offset => 0 }
+        conditions[:owned_by] = options[:full_name] if options[:only_mine]
+        @story = project.stories.all(conditions).first
+      end
     end
   end
 end

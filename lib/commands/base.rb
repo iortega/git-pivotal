@@ -69,6 +69,7 @@ module Commands
       OptionParser.new do |opts|
         opts.banner = "Usage: git pick [options]"
         opts.on("-k", "--api-key=", "Pivotal Tracker API key") { |k| options[:api_token] = k }
+        opts.on("-s", "--story-id=", "Story id") { |s| options[:story_id] = s }
         opts.on("-p", "--project-id=", "Pivotal Trakcer project id") { |p| options[:project_id] = p }
         opts.on("-n", "--full-name=", "Pivotal Trakcer full name") { |n| options[:full_name] = n }
         opts.on("-b", "--integration-branch=", "The branch to merge finished stories back down onto") { |b| options[:integration_branch] = b }
