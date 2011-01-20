@@ -63,9 +63,10 @@ module Commands
     def story
       return @story if @story
       if !!options[:story_id]
-        puts "Looking for story #{options[:story_id]}"
+        puts "Looking for story #{options[:story_id]}. Project #{project.id}: #{project.name}"
         @story = project.stories.find(options[:story_id])
         puts "Story has not state 'unstarted'. Current state '#{@story.current_state}'." if @story.current_state != "unstarted"
+        @story
       else
         conditions = { :story_type => type, :current_state => "unstarted", :limit => 1, :offset => 0 }
         conditions[:owned_by] = options[:full_name] if options[:only_mine]
