@@ -9,10 +9,10 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ignacio Ortega"]
-  s.date = %q{2011-01-11}
+  s.date = %q{2011-01-20}
   s.description = %q{A collection of git utilities to ease integration with Pivotal Tracker}
   s.email = %q{ignacio.ortega@gmail.com}
-  s.executables = ["git-finish", "git-pick", "git-chore", "git-bug", "git-feature"]
+  s.executables = ["git-finish", "git-pick", "git-stories", "git-chore", "git-bug", "git-feature"]
   s.extra_rdoc_files = [
     "LICENSE"
   ]
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     "bin/git-feature",
     "bin/git-finish",
     "bin/git-pick",
+    "bin/git-stories",
     "git-pivotal.gemspec",
     "lib/commands/base.rb",
     "lib/commands/bug.rb",
@@ -33,6 +34,7 @@ Gem::Specification.new do |s|
     "lib/commands/feature.rb",
     "lib/commands/finish.rb",
     "lib/commands/pick.rb",
+    "lib/commands/stories.rb",
     "lib/git-pivotal.rb",
     "readme.markdown",
     "spec/commands/base_spec.rb",
@@ -46,7 +48,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{http://github.com/iortega/git-pivotal}
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
+  s.rubygems_version = %q{1.4.2}
   s.summary = %q{A collection of git utilities to ease integration with Pivotal Tracker}
   s.test_files = [
     "spec/commands/base_spec.rb",
@@ -60,7 +62,6 @@ Gem::Specification.new do |s|
   ]
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
